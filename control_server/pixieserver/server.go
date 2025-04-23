@@ -8,6 +8,7 @@ package pixieserver
 
 import (
 	"time"
+	"net/http"
 
 	log "github.com/sirupsen/logrus"
 
@@ -40,6 +41,35 @@ func StartPixiecore(url string) {
 		DHCPNoBind: true,
 		Address:    "0.0.0.0",
 	}
+
+	// HTTP-Mux und Pixiecore-Handler registrieren
+    mux := http.NewServeMux()
+    s.HTTPHandler(mux)
+
+    // CORS-Wrapper
+    corsHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "http://127.0.0.1:9090")
+        w.Header().Set("Access-Control-Allow-Credentials", "true")
+        w.Header().Set("Access-Control-Allow-Headers", "*")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+
+        // Preflight-Anfrage (OPTIONS) direkt beantworten
+        if r.Method == "OPTIONS" {
+            w.WriteHeader(http.StatusOK)
+            return
+        }
+
+        mux.ServeHTTP(w, r)
+    })
+
+    // HTTP-Server mit CORS-Handler starten
+    go func() {
+        log.Info("Starting Pixiecore HTTP server with CORS on :4848")
+        err := http.ListenAndServe(":4848", corsHandler)
+        if err != nil {
+            log.Fatalf("Error while serving HTTP with CORS: %v", err)
+        }
+    }()
 
 	err = s.Serve()
 	if err != nil {

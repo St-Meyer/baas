@@ -51,7 +51,8 @@ func _getUserInternal(w http.ResponseWriter, r *http.Request, api *API) (*usermo
 // GetUsers fetches all the users from the database
 // Example request: users
 // Response: [{"Name": "Valentijn", "Email": "v.d.vandebeek@student.tudelft.nl",
-//             "Role": "admin", "Image": null}
+//
+//	"Role": "admin", "Image": null}
 func (api_ *API) GetUsers(w http.ResponseWriter, _ *http.Request) {
 	users, err := api_.store.GetUsers()
 
@@ -66,8 +67,10 @@ func (api_ *API) GetUsers(w http.ResponseWriter, _ *http.Request) {
 
 // CreateUser creates a new user in the database
 // Example request: user, {"name": "William Narchi",
-//                         "email", "w.narchi1@student.tudelft.nl",
-//                         "role": "user"}
+//
+//	"email", "w.narchi1@student.tudelft.nl",
+//	"role": "user"}
+//
 // Response: Either an error message or success.
 func (api_ *API) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var user usermodel.UserModel
@@ -136,14 +139,16 @@ func (api_ *API) GetLoggedInUser(w http.ResponseWriter, r *http.Request) {
 // GetImagesByName gets any image based on the user who created it and human-readable name assigned to it.
 // Example Request: user/Jan/images/Gentoo
 // Example Response: [
-//  {
-//    "Name": "Gentoo",
-//    "Versions": null,
-//    "UUID": "57bf0cd3-c2bf-4257-acdd-b7f1c8633fcf",
-//    "DiskUUID": "30DF-844C",
-//    "UserModelID": 1
-//  }
-//]
+//
+//	{
+//	  "Name": "Gentoo",
+//	  "Versions": null,
+//	  "UUID": "57bf0cd3-c2bf-4257-acdd-b7f1c8633fcf",
+//	  "DiskUUID": "30DF-844C",
+//	  "UserModelID": 1
+//	}
+//
+// ]
 func (api_ *API) GetImagesByName(w http.ResponseWriter, r *http.Request) {
 	username, err := GetName(w, r)
 	if err != nil {
@@ -173,20 +178,22 @@ func (api_ *API) GetImagesByName(w http.ResponseWriter, r *http.Request) {
 // GetImagesByUser fetches all the images of the given user
 // Example request: user/Jan/images
 // Example result: [
-//  {
-//    "Name": "Windows",
-//    "Versions "a9c11954-6161-410b-b238-c03df5c529e9",
-//    "DiskUUID": "30DF-844C",
-//    "UserModelID": 2
-//  },
-//  {
-//    "Name": "Arch Linux",
-//    "Versions": null,
-//    "UUID": "341b2c69-8776-4e54-9330-7c9692f7ed28",
-//    "DiskUUID": "30DF-844C",
-//    "UserModelID": 2
-//  }
-//]
+//
+//	{
+//	  "Name": "Windows",
+//	  "Versions "a9c11954-6161-410b-b238-c03df5c529e9",
+//	  "DiskUUID": "30DF-844C",
+//	  "UserModelID": 2
+//	},
+//	{
+//	  "Name": "Arch Linux",
+//	  "Versions": null,
+//	  "UUID": "341b2c69-8776-4e54-9330-7c9692f7ed28",
+//	  "DiskUUID": "30DF-844C",
+//	  "UserModelID": 2
+//	}
+//
+// ]
 func (api_ *API) GetImagesByUser(w http.ResponseWriter, r *http.Request) {
 	name, err := GetName(w, r)
 	if err != nil {
@@ -207,8 +214,9 @@ func (api_ *API) GetImagesByUser(w http.ResponseWriter, r *http.Request) {
 // GetUser fetches a user based on their name and returns it
 // Example request: GET /user/[name]
 // Response: {"Name": "Jan",
-//            "Email": "v.d.vandebeek@student.tudelft.nl",
-//            "role": "admin"}
+//
+//	"Email": "v.d.vandebeek@student.tudelft.nl",
+//	"role": "admin"}
 func (api_ *API) GetUser(w http.ResponseWriter, r *http.Request) {
 	user, err := _getUserInternal(w, r, api_)
 	if err != nil {

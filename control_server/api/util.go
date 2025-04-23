@@ -23,7 +23,7 @@ func GetTag(tag string, w http.ResponseWriter, r *http.Request) (string, error) 
 
 	if !ok || res == "" {
 		http.Error(w, tag+" not found", http.StatusBadRequest)
-		log.Errorf(tag + " not provided")
+		log.Errorf("%s", tag+" not provided")
 		return "", errors.New(tag + " not found")
 	}
 

@@ -20,6 +20,7 @@ require (
 	go.universe.tf/netboot v0.0.0-20200920222120-66e5fba6f663
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8
 	golang.org/x/sys v0.0.0-20210927094055-39ccf1dd6fa6 // indirect
+	golang.org/x/tools v0.0.0-20200825202427-b303f430e36d // indirect
 	gorm.io/driver/sqlite v1.1.6
 	gorm.io/gorm v1.21.16
 )

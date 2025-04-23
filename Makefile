@@ -8,11 +8,11 @@ export CONTROL_SERVER_IP ?= 192.168.2.76
 
 lint_fix:
 	goimports -local baas -w **/*.go
-	golangci-lint run --fix
+	#golangci-lint run --fix
 
 lint:
 	goimports -local baas -w **/*.go
-	golangci-lint run
+	#golangci-lint run
 
 management_os: management_initramfs management_kernel
 

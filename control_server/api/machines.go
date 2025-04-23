@@ -26,8 +26,9 @@ import (
 // GetMachine GETs any machine in the database based on its MAC address
 // Example message: machine/00:11:22:33:44:55:66
 // Example response: {"name": "Machine 1",
-//                    "Architecture": "x86_64",
-//                    "MacAddresses": [{"Mac": "00:11:22:33:44:55:66}]}
+//
+//	"Architecture": "x86_64",
+//	"MacAddresses": [{"Mac": "00:11:22:33:44:55:66}]}
 func (api_ *API) GetMachine(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	mac, ok := vars["mac"]
@@ -51,8 +52,9 @@ func (api_ *API) GetMachine(w http.ResponseWriter, r *http.Request) {
 // GetMachines fetches all the machines from the database using a GET request
 // Example request: machines
 // Example response: {"name": "Machine 1",
-//                    "Architecture": "x86_64",
-//                    "MacAddresses": [{"Mac": "00:11:22:33:44:55:66}]}
+//
+//	"Architecture": "x86_64",
+//	"MacAddresses": [{"Mac": "00:11:22:33:44:55:66}]}
 func (api_ *API) GetMachines(w http.ResponseWriter, _ *http.Request) {
 	machines, err := api_.store.GetMachines()
 	if err != nil {
@@ -112,17 +114,17 @@ func (api_ *API) DeleteMachine(w http.ResponseWriter, r *http.Request) {
 // UpdateMachine updates (or adds) the machine to the database.
 //
 // Example of a JSON message:
-//     {
-//        "name": "Hello World",
-//        "Architecture": "x86_64",
-//        "Managed": true,
-//        "DiskUUIDs": null,
-//        "MacAddresses": [{
-//            "Mac": "52:54:00:d9:71:15",
-//            "MachineModelID": 12
-//        }]
-//     }
 //
+//	{
+//	   "name": "Hello World",
+//	   "Architecture": "x86_64",
+//	   "Managed": true,
+//	   "DiskUUIDs": null,
+//	   "MacAddresses": [{
+//	       "Mac": "52:54:00:d9:71:15",
+//	       "MachineModelID": 12
+//	   }]
+//	}
 func (api_ *API) UpdateMachine(w http.ResponseWriter, r *http.Request) {
 	var machine machinemodel.MachineModel
 	err := json.NewDecoder(r.Body).Decode(&machine)
@@ -353,11 +355,12 @@ func (api_ *API) BootInform(w http.ResponseWriter, r *http.Request) {
 // SetBootSetup adds an image to the schedule to be flashed onto the machine
 // Example request: POST machine/52:54:00:d9:71:93/boot
 // Example body: {"Version": 1636116090, "ImageUUID": "74368cec-7903-4233-87b7-564195619dce", "update": true}
-// Example response: {
-//   "MachineModelID": 1,
-//   "Version": 1636116090,
-//   "ImageUUID": "74368cec-7903-4233-87b7-564195619dce",
-//   "Update": true}
+//
+//	Example response: {
+//	  "MachineModelID": 1,
+//	  "Version": 1636116090,
+//	  "ImageUUID": "74368cec-7903-4233-87b7-564195619dce",
+//	  "Update": true}
 func (api_ *API) SetBootSetup(w http.ResponseWriter, r *http.Request) {
 	// First we fetch the id associated of the
 	vars := mux.Vars(r)
