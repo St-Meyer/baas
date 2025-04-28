@@ -55,12 +55,20 @@ func StartPixiecore(url string) {
 		w.Write([]byte(`{"status": "running"}`))
 	})
 
+	allowedOrigins := map[string]bool{
+		"http://localhost:9090": true,
+		"http://127.0.0.1:9090": true,
+	}
+
 	// CORS-Wrapper
 	corsHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Credentials", "true")
-		w.Header().Set("Access-Control-Allow-Headers", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		origin := r.Header.Get("Origin")
+		if allowedOrigins[origin] {
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Access-Control-Allow-Credentials", "true")
+			w.Header().Set("Access-Control-Allow-Headers", "*")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		}
 
 		// Preflight-Anfrage (OPTIONS) direkt beantworten
 		if r.Method == "OPTIONS" {
