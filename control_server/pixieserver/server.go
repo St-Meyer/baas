@@ -7,8 +7,8 @@
 package pixieserver
 
 import (
-	"time"
 	"net/http"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -43,33 +43,42 @@ func StartPixiecore(url string) {
 	}
 
 	// HTTP-Mux und Pixiecore-Handler registrieren
-    mux := http.NewServeMux()
-    s.HTTPHandler(mux)
+	mux := http.NewServeMux()
 
-    // CORS-Wrapper
-    corsHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        w.Header().Set("Access-Control-Allow-Origin", "http://127.0.0.1:9090")
-        w.Header().Set("Access-Control-Allow-Credentials", "true")
-        w.Header().Set("Access-Control-Allow-Headers", "*")
-        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	mux.HandleFunc("/api/status", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"status": "running"}`))
+	})
 
-        // Preflight-Anfrage (OPTIONS) direkt beantworten
-        if r.Method == "OPTIONS" {
-            w.WriteHeader(http.StatusOK)
-            return
-        }
+	mux.HandleFunc("/api/boot", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"status": "running"}`))
+	})
 
-        mux.ServeHTTP(w, r)
-    })
+	// CORS-Wrapper
+	corsHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 
-    // HTTP-Server mit CORS-Handler starten
-    go func() {
-        log.Info("Starting Pixiecore HTTP server with CORS on :4848")
-        err := http.ListenAndServe(":4848", corsHandler)
-        if err != nil {
-            log.Fatalf("Error while serving HTTP with CORS: %v", err)
-        }
-    }()
+		// Preflight-Anfrage (OPTIONS) direkt beantworten
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		mux.ServeHTTP(w, r)
+	})
+
+	// HTTP-Server mit CORS-Handler starten
+	go func() {
+		log.Info("Starting Pixiecore HTTP server with CORS on :8080")
+		err := http.ListenAndServe(":8080", corsHandler)
+		if err != nil {
+			log.Fatalf("Error while serving HTTP with CORS: %v", err)
+		}
+	}()
 
 	err = s.Serve()
 	if err != nil {
