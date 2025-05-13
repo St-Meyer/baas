@@ -57,11 +57,12 @@ func (api_ *API) checkUserImage(w http.ResponseWriter, r *http.Request) (*images
 // Example request: POST user/Jan/image
 // Example body: {"DiskUUID": "30DF-844C", "Name": "Fedora"}
 // Example response: {"Name": "Fedora",
-//                    "Versions": [{"Version": "2021-11-01T00:11:22.38125222+01:00",
-//                                  "ImageModelID": 0}],
-//                    "UUID": "eed13670-5974-4c98-b044-347e1f630bc5",
-//                    "DiskUUID": "30DF-844C",
-//                    "UserModelID": 0}
+//
+//	"Versions": [{"Version": "2021-11-01T00:11:22.38125222+01:00",
+//	              "ImageModelID": 0}],
+//	"UUID": "eed13670-5974-4c98-b044-347e1f630bc5",
+//	"DiskUUID": "30DF-844C",
+//	"UserModelID": 0}
 func (api_ *API) CreateImage(w http.ResponseWriter, r *http.Request) {
 	image := images.ImageModel{}
 	err := json.NewDecoder(r.Body).Decode(&image)
@@ -110,13 +111,14 @@ func (api_ *API) CreateImage(w http.ResponseWriter, r *http.Request) {
 
 // GetImage gets any image based on its unique id.
 // Example request: image/57bf0cd3-c2bf-4257-acdd-b7f1c8633fcf
-// Example response: {
-//  "Name": "Gentoo",
-//  "Versions": null,
-//  "UUID": "57bf0cd3-c2bf-4257-acdd-b7f1c8633fcf",
-//  "DiskUUID": "30DF-844C",
-//  "UserModelID": 1
-//}
+//
+//	Example response: {
+//	 "Name": "Gentoo",
+//	 "Versions": null,
+//	 "UUID": "57bf0cd3-c2bf-4257-acdd-b7f1c8633fcf",
+//	 "DiskUUID": "30DF-844C",
+//	 "UserModelID": 1
+//	}
 func (api_ *API) GetImage(w http.ResponseWriter, r *http.Request) {
 	image, err := api_.checkUserImage(w, r)
 	if err != nil {
@@ -272,7 +274,9 @@ func manageVersion(api *API, newVersion string, uniqueID string) (*images.Versio
 
 // UploadImage takes the uploaded file and stores as a new version of the image
 // Example request: image/87f58936-9540-4dad-aba6-253f06142166 -H "Content-Type: multipart/form-data"
-//                     -F "file=@/tmp/test3.img"
+//
+//	-F "file=@/tmp/test3.img"
+//
 // Example return: Successfully uploaded image: 134251234
 func (api_ *API) UploadImage(w http.ResponseWriter, r *http.Request) {
 	log.Info("Started with upload")

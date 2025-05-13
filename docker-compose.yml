@@ -12,6 +12,7 @@ services:
     command: ["-static=/static"]
     volumes:
       - ./control_server/static:/static
-
+    environment:
+      - GITHUB_SECRET=6bf22b6f07d0675c383fb8d132f3a0e1aa85ab8d
     network_mode: "host"
 

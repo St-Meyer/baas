@@ -86,13 +86,14 @@ func (api_ *API) createImageSetup(w http.ResponseWriter, r *http.Request) {
 // Example request: GET /user/{name}/image_setup
 // Example response:
 // [{"Name": "Linux Kernel",
-//   "Images": [],
-//   "User": "ValentijnvdBeek",
-//    "UUID": "fcc0ed46-1f55-4366-a1fd-73b61473bbd5"},
-//  {"Name": "Linux Kernel 2",
-//   "Images": [],
-//   "User": "ValentijnvdBeek",
-//   "UUID": "2b59ff94-7fb6-4239-b2e6-82f1e30f4355"}]
+//
+//	 "Images": [],
+//	 "User": "ValentijnvdBeek",
+//	  "UUID": "fcc0ed46-1f55-4366-a1fd-73b61473bbd5"},
+//	{"Name": "Linux Kernel 2",
+//	 "Images": [],
+//	 "User": "ValentijnvdBeek",
+//	 "UUID": "2b59ff94-7fb6-4239-b2e6-82f1e30f4355"}]
 func (api_ *API) findImageSetupsByUsername(w http.ResponseWriter, r *http.Request) {
 	username, err := GetName(w, r)
 	if err != nil {
@@ -116,10 +117,11 @@ func (api_ *API) findImageSetupsByUsername(w http.ResponseWriter, r *http.Reques
 // Example request: GET /[name]/image_setup/[uuid]
 // Example response:
 // { "Name": "Linux Kernel 2",
-//   "Images": [{"UUIDImage": "3a760707-c160-40fa-81be-430b75131ddc",
-//               "VersionNumber": 3 }],
-//   "User": "ValentijnvdBeek",
-//   "UUID": "2b59ff94-7fb6-4239-b2e6-82f1e30f4355" }
+//
+//	"Images": [{"UUIDImage": "3a760707-c160-40fa-81be-430b75131ddc",
+//	            "VersionNumber": 3 }],
+//	"User": "ValentijnvdBeek",
+//	"UUID": "2b59ff94-7fb6-4239-b2e6-82f1e30f4355" }
 func (api_ *API) getImageSetup(w http.ResponseWriter, r *http.Request) {
 	setup, err := _getImageSetup(w, r, api_)
 	if err != nil {
@@ -205,10 +207,11 @@ func (api_ *API) getImageSetups(w http.ResponseWriter, r *http.Request) {
 // Example request: POST /[name]/image_setup/[uuid]
 // Example body: {"Uuid": "3a760707-c160-40fa-81be-430b75131ddc", "Version": 3}
 // Example response:
-//  {"Name": "Linux Kernel 2",
-//   "Images": [{"UUIDImage":"3a760707-c160-40fa-81be-430b75131ddc","VersionNumber":3}],
-//   "User":"ValentijnvdBeek",
-//   "UUID":"2b59ff94-7fb6-4239-b2e6-82f1e30f4355"}
+//
+//	{"Name": "Linux Kernel 2",
+//	 "Images": [{"UUIDImage":"3a760707-c160-40fa-81be-430b75131ddc","VersionNumber":3}],
+//	 "User":"ValentijnvdBeek",
+//	 "UUID":"2b59ff94-7fb6-4239-b2e6-82f1e30f4355"}
 func (api_ *API) addImageToImageSetup(w http.ResponseWriter, r *http.Request) {
 	imageSetup, err := _getImageSetup(w, r, api_)
 	if err != nil {
